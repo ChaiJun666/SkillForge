@@ -1,10 +1,68 @@
 :root {
   font-family: "Aptos", "Segoe UI", sans-serif;
-  color: #e7ece6;
-  background: #0f1210;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+}
+
+[data-theme='dark'] {
+  --bg-page: #0f1210;
+  --bg-shell-a: #151915;
+  --bg-shell-b: #0d100f;
+  --bg-rail: #0b0d0c;
+  --bg-topbar: rgba(14, 17, 15, 0.94);
+  --bg-panel: #111511;
+  --bg-panel-header: #171d17;
+  --bg-button: #1b211b;
+  --bg-input: #0c100d;
+  --bg-terminal: #080a09;
+  --bg-soft: #20271f;
+  --bg-issue: #171d17;
+  --text-main: #e7ece6;
+  --text-muted: #9da895;
+  --text-soft: #cfd8c9;
+  --text-button: #d7dfd2;
+  --text-terminal: #b8f28c;
+  --border: #2a3029;
+  --border-strong: #30392f;
+  --accent: #b7ff5a;
+  --accent-soft: #d2ff8e;
+  --accent-text: #11170d;
+  --danger: #ff5e57;
+  --warning: #ffbf3f;
+  --info: #68b8ff;
+  color: var(--text-main);
+  background: var(--bg-page);
+}
+
+[data-theme='light'] {
+  --bg-page: #f4f5f0;
+  --bg-shell-a: #fbfcf7;
+  --bg-shell-b: #eef1e8;
+  --bg-rail: #e9ece3;
+  --bg-topbar: rgba(250, 251, 246, 0.96);
+  --bg-panel: #f8faf3;
+  --bg-panel-header: #eef2e8;
+  --bg-button: #f4f7ed;
+  --bg-input: #ffffff;
+  --bg-terminal: #172018;
+  --bg-soft: #e9eee0;
+  --bg-issue: #ffffff;
+  --text-main: #182015;
+  --text-muted: #627057;
+  --text-soft: #303a2b;
+  --text-button: #25301f;
+  --text-terminal: #d9ffd0;
+  --border: #d2dac9;
+  --border-strong: #b7c4ad;
+  --accent: #3f7d20;
+  --accent-soft: #6fa740;
+  --accent-text: #ffffff;
+  --danger: #c9342d;
+  --warning: #b66b00;
+  --info: #2670a8;
+  color: var(--text-main);
+  background: var(--bg-page);
 }
 
 * {
@@ -33,8 +91,8 @@ button {
   grid-template-columns: 52px 1fr;
   min-height: 100vh;
   background:
-    linear-gradient(90deg, rgba(205, 255, 120, 0.06), transparent 22%),
-    linear-gradient(180deg, #151915 0%, #0d100f 100%);
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 8%, transparent), transparent 22%),
+    linear-gradient(180deg, var(--bg-shell-a) 0%, var(--bg-shell-b) 100%);
 }
 
 .activity-rail {
@@ -43,12 +101,12 @@ button {
   align-items: center;
   gap: 12px;
   padding: 14px 8px;
-  border-right: 1px solid #2a3029;
-  background: #0b0d0c;
+  border-right: 1px solid var(--border);
+  background: var(--bg-rail);
 }
 
 .brand-mark {
-  color: #b7ff5a;
+  color: var(--accent);
   margin-bottom: 10px;
 }
 
@@ -58,9 +116,9 @@ button {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  color: #d7dfd2;
-  background: #1b211b;
-  border: 1px solid #30392f;
+  color: var(--text-button);
+  background: var(--bg-button);
+  border: 1px solid var(--border-strong);
   cursor: pointer;
 }
 
@@ -73,8 +131,8 @@ button {
 .rail-button.active,
 .toolbar button:hover,
 .tree-item.active {
-  border-color: #b7ff5a;
-  color: #f6ffe9;
+  border-color: var(--accent);
+  color: var(--text-main);
 }
 
 .workspace {
@@ -89,13 +147,13 @@ button {
   justify-content: space-between;
   gap: 20px;
   padding: 14px 18px;
-  border-bottom: 1px solid #2a3029;
-  background: rgba(14, 17, 15, 0.94);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-topbar);
 }
 
 .eyebrow {
   margin: 0 0 4px;
-  color: #9da895;
+  color: var(--text-muted);
   font-size: 12px;
   text-transform: uppercase;
 }
@@ -120,9 +178,9 @@ h1 {
 }
 
 .toolbar .primary {
-  background: #b7ff5a;
-  border-color: #d2ff8e;
-  color: #11170d;
+  background: var(--accent);
+  border-color: var(--accent-soft);
+  color: var(--accent-text);
   font-weight: 700;
 }
 
@@ -139,15 +197,15 @@ h1 {
 .terminal {
   min-width: 0;
   min-height: 0;
-  border-right: 1px solid #2a3029;
-  border-bottom: 1px solid #2a3029;
-  background: #111511;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-panel);
 }
 
 .terminal {
   grid-column: 1 / 4;
   border-right: 0;
-  background: #080a09;
+  background: var(--bg-terminal);
 }
 
 .pane-header {
@@ -156,9 +214,9 @@ h1 {
   gap: 8px;
   height: 38px;
   padding: 0 12px;
-  color: #cfd8c9;
-  background: #171d17;
-  border-bottom: 1px solid #2a3029;
+  color: var(--text-soft);
+  background: var(--bg-panel-header);
+  border-bottom: 1px solid var(--border);
   font-size: 13px;
   font-weight: 650;
 }
@@ -176,7 +234,7 @@ h1 {
   min-height: 32px;
   padding: 0 8px;
   border-radius: 6px;
-  color: #cfd8c9;
+  color: var(--text-soft);
   background: transparent;
   border: 1px solid transparent;
   text-align: left;
@@ -198,16 +256,16 @@ h1 {
   display: grid;
   gap: 6px;
   padding: 10px 12px 0;
-  color: #aeb9a8;
+  color: var(--text-muted);
   font-size: 12px;
 }
 
 .inspector input,
 .inspector textarea {
   width: 100%;
-  color: #eef5e9;
-  background: #0c100d;
-  border: 1px solid #30392f;
+  color: var(--text-main);
+  background: var(--bg-input);
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   padding: 9px 10px;
   outline: none;
@@ -228,8 +286,8 @@ h1 {
 .validation-summary span {
   padding: 7px 6px;
   border-radius: 6px;
-  background: #20271f;
-  color: #d6ded1;
+  background: var(--bg-soft);
+  color: var(--text-soft);
   font-size: 12px;
   text-align: center;
 }
@@ -246,26 +304,26 @@ h1 {
   gap: 8px;
   padding: 9px;
   border-radius: 6px;
-  background: #171d17;
-  color: #d7dfd2;
+  background: var(--bg-issue);
+  color: var(--text-button);
   font-size: 12px;
   line-height: 1.35;
 }
 
 .issue.error {
-  border-left: 3px solid #ff5e57;
+  border-left: 3px solid var(--danger);
 }
 
 .issue.warning {
-  border-left: 3px solid #ffbf3f;
+  border-left: 3px solid var(--warning);
 }
 
 .issue.info {
-  border-left: 3px solid #68b8ff;
+  border-left: 3px solid var(--info);
 }
 
 .issue.success {
-  border-left: 3px solid #b7ff5a;
+  border-left: 3px solid var(--accent);
 }
 
 .terminal pre {
@@ -273,7 +331,7 @@ h1 {
   margin: 0;
   padding: 12px;
   overflow: auto;
-  color: #b8f28c;
+  color: var(--text-terminal);
   font-family: "Cascadia Mono", "Consolas", monospace;
   font-size: 12px;
   line-height: 1.55;
@@ -282,8 +340,8 @@ h1 {
 
 .execution-pill {
   margin-left: auto;
-  color: #11170d;
-  background: #b7ff5a;
+  color: var(--accent-text);
+  background: var(--accent);
   border-radius: 999px;
   padding: 2px 8px;
   font-size: 12px;
