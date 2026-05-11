@@ -4,7 +4,7 @@
 
 [简体中文](README_ZH.md)
 
-**Status:** Early MVP / desktop prototype
+**Status:** MVP local desktop workflow implemented
 
 SkillForge focuses on creating, editing, validating, running, and packaging Agent Skills across ecosystems such as Claude Skills, OpenAI Agent Skills, Codex Skills, Cursor Rules, MCP Tool Skills, and custom agent frameworks.
 
@@ -16,19 +16,22 @@ The project is local-first. MVP editing flows should work without cloud services
 
 ## Current Capabilities
 
-This repository currently includes early MVP capabilities:
+This repository currently includes the MVP local desktop workflow:
 
 - Tauri v2 desktop application scaffold
 - React + TypeScript frontend
-- IDE-like workspace UI
-- Skill creation, listing, opening, reading, and saving
+- Componentized IDE-like workspace UI with explorer, editor, metadata, validation, runtime, and import/export panels
+- Local Skill folder workflow through Tauri commands
+- Browser demo fallback for `pnpm dev`
+- Skill creation, listing, opening by folder path, reading, and active-file saving
+- Dirty-file markers and guards before replacing workspaces, running scripts, or exporting stale disk contents
 - `SKILL.md` frontmatter parsing and updating
-- Basic Skill validation for name, description, version, compatibility, and prompt body length
+- Deterministic document and workspace validation for frontmatter, metadata, body length, managed paths, and script extensions
 - Standard Skill file filtering
-- Script execution with stdout, stderr, exit status, and duration capture
-- Skill zip export
+- Safe script execution for `.js` and `.py` files under `scripts/`, with stdout, stderr, exit status, duration, timeout, and process-tree cleanup on Windows
+- Skill zip export after blocking validation errors are cleared
 - Theme and internationalization code
-- Vitest test entry points
+- Vitest tests and focused Rust unit tests for safety helpers
 
 ## Planned Capabilities
 
@@ -160,10 +163,13 @@ interface SkillExecution {
   id: string
   skillId: string
   input: string
+  stdout: string
+  stderr: string
   output: string
   logs: string[]
   duration: number
   status: 'success' | 'failed'
+  timedOut?: boolean
 }
 ```
 
@@ -178,7 +184,7 @@ Skill validation should stay deterministic first, then gain assisted workflows o
 - Compatibility and tag constraints
 - Script path and runtime safety checks
 
-The current implementation covers basic frontmatter presence, required name, description warning, version warning, compatibility hint, and prompt body length checks.
+The current implementation covers document-level validation, backend workspace validation, managed-path filtering, unsupported script extension checks, and export blocking on validation errors.
 
 ## Development Principles
 

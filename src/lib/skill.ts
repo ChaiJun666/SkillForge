@@ -43,7 +43,7 @@ export function updateFrontmatter(content: string, metadata: Skill): string {
 
 export function validateSkillDocument(content: string, path = 'SKILL.md'): ValidationIssue[] {
   const issues: ValidationIssue[] = []
-  const hasFrontmatter = content.trimStart().startsWith('---')
+  const hasFrontmatter = /^---\r?\n/.test(content.trimStart())
   const parsed = parseSkillDocument(content, path)
 
   if (!hasFrontmatter) {

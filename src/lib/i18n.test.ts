@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { createTranslator, defaultLocale, dictionaries, loadLocale, localeStorageKey, nextLocale } from './i18n'
+import {
+  createTranslator,
+  defaultLocale,
+  dictionaries,
+  loadLocale,
+  localeStorageKey,
+  localizeIssue,
+  nextLocale
+} from './i18n'
 
 describe('i18n preferences', () => {
   it('defaults to English', () => {
@@ -24,6 +32,21 @@ describe('i18n preferences', () => {
   it('interpolates translated values', () => {
     const t = createTranslator('en')
     expect(t('terminalSaved', { path: 'SKILL.md' })).toBe('Saved SKILL.md.')
+  })
+
+  it('localizes missing SKILL.md issues', () => {
+    const t = createTranslator('en')
+
+    expect(
+      localizeIssue({ severity: 'error', message: 'SKILL.md is required.', path: 'SKILL.md', field: 'file' }, t)
+    ).toBe('SKILL.md is required.')
+  })
+
+  it('keeps unmanaged file issues as backend messages', () => {
+    const t = createTranslator('en')
+    const message = 'File is outside managed Skill paths and will not be loaded for editing.'
+
+    expect(localizeIssue({ severity: 'info', message, path: 'notes.txt', field: 'file' }, t)).toBe(message)
   })
 })
 

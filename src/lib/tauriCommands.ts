@@ -4,6 +4,11 @@ export interface CreateSkillRequest {
   name: string
 }
 
+export interface CreatedSkillWorkspace {
+  root: string
+  files: SkillFile[]
+}
+
 export interface SaveSkillFileRequest {
   root: string
   path: string
@@ -22,15 +27,15 @@ export interface ExportSkillRequest {
 }
 
 export function isTauriRuntime(): boolean {
-  return typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window
+  return typeof window !== 'undefined' && typeof (window as Window & { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__ !== 'undefined'
 }
 
 export async function listSkills(): Promise<Skill[]> {
   return invokeCommand<Skill[]>('list_skills')
 }
 
-export async function createSkill(request: CreateSkillRequest): Promise<SkillFile[]> {
-  return invokeCommand<SkillFile[]>('create_skill', { request })
+export async function createSkill(request: CreateSkillRequest): Promise<CreatedSkillWorkspace> {
+  return invokeCommand<CreatedSkillWorkspace>('create_skill', { request })
 }
 
 export async function openSkill(root: string): Promise<SkillFile[]> {
